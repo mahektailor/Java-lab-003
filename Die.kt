@@ -1,45 +1,60 @@
-
-package game
-
 import kotlin.random.Random
 
-enum class Color {
-    RED,
-    WHITE,
-    YELLOW,
-    ORANGE,
-    BLACK
+enum class DieType {
+    D12, D20, PERCENTILE
 }
 
-enum class Sides(val value: Int) {
-    THREE(3),
-    FOUR(4),
-    SIX(6),
-    TWENTY(20)
-}
+class Die {
+    private var type: DieType = DieType.D12
+    private var sides: Int = 12
+    private var currentSideUp: Int = 1
 
-
-// Document this class
-
-class Die (private val color: Color, private val numSides: Sides) {
-    var sideUp: Int = 1
-        private set
-
-    // Called each time we initialize a new Die object.
-    init {
+    // Default constructor for Die
+    constructor() {
         roll()
     }
 
-    // Secondary constructors that call the primary constructor
-    constructor(): this(Color.WHITE, Sides.SIX)
-    constructor(numSides: Sides): this(Color.WHITE, numSides)
-
-    fun roll() {
-        println("rolling the die")
-        sideUp = Random.nextInt(1, numSides.value + 1)
+    // Constructor for Die with specified number of sides
+    constructor(sides: Int) {
+        this.sides = sides
+        roll()
     }
 
-    override fun toString(): String {
-        return "A ${color.name.lowercase()} die with ${numSides.value} faces and currently showing a $sideUp."
+    // Constructor for Die with specified type and number of sides
+    constructor(type: DieType, sides: Int) {
+        this.type = type
+        this.sides = sides
+        roll()
+    }
+
+    // Returns the type of the die
+    fun getType(): DieType {
+        return type
+    }
+
+    // Sets the type of the die
+    fun setType(type: DieType) {
+        this.type = type
+    }
+
+    // Returns the number of sides of the die
+    fun getSides(): Int {
+        return sides
+    }
+
+    // Sets the number of sides of the die and rolls it
+    fun setSides(sides: Int) {
+        this.sides = sides
+        roll()
+    }
+
+    // Returns the current side facing up on the die
+    fun getCurrentSideUp(): Int {
+        return currentSideUp
+    }
+
+    // Rolls the die by generating a random number between 1 and the number of sides
+    fun roll() {
+        currentSideUp = Random.nextInt(1, sides + 1)
     }
 }
